@@ -33,14 +33,14 @@ func main() {
             log.Fatal(err)
         }
 		str := msg[6:8]
-		ok_code := "35"
-		error_code := "0"
+		ok_code := []byte {0x00, 0x00}
+		error_code := []byte {0x00, 0x23}
 		response := append([]byte{0, 0, 0, 0}, []byte(msg[8:12])...)
 		if str == "4" {
 			
-			conn.Write(append(response, []byte(ok_code)...))
+			conn.Write(append(response, ok_code...))
 		} else {
-			conn.Write(append(response, []byte(error_code)...))
+			conn.Write(append(response, error_code...))
 		}
         
     }
