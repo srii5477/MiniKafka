@@ -32,7 +32,7 @@ func main() {
         if err != nil {
             log.Fatal(err)
         }
-		str := msg[16:23]
+		str := msg[16:24]
         conn.Write([]byte(str))
     }
 
