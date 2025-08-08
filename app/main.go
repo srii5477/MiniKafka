@@ -28,11 +28,12 @@ func main() {
 		os.Exit(1)
 	}
 	for {
-        _, err :=  bufio.NewReader(conn).ReadString('\n')
+        msg, err :=  bufio.NewReader(conn).ReadString('\n')
         if err != nil {
             log.Fatal(err)
         }
-        conn.Write([]byte{0, 0, 0, 0, 0, 0, 0, 7})
+		str := msg[16:len(msg)-1]
+        conn.Write([]byte(str))
     }
 
 }
