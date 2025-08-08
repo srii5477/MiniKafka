@@ -32,8 +32,17 @@ func main() {
         if err != nil {
             log.Fatal(err)
         }
-		str := msg[8:12]
-        conn.Write(append([]byte{0, 0, 0, 0}, []byte(str)...))
+		str := msg[6:8]
+		ok_code := "35"
+		error_code := "0"
+		response := append([]byte{0, 0, 0, 0}, []byte(msg[8:12])...)
+		if str == "4" {
+			
+			conn.Write(append(response, ok_code...))
+		} else {
+			conn.Write(append(response, error_code...))
+		}
+        
     }
 
 }
