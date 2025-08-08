@@ -32,7 +32,7 @@ func main() {
         if err != nil {
             log.Fatal(err)
         }
-        conn.Write([]byte("0, 0, 0, 0, 0, 0, 0, 0, 7"))
+        conn.Write([]byte{0, 0, 0, 0, 0, 0, 0, 7})
     }
 
 }
