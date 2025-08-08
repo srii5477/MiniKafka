@@ -33,8 +33,7 @@ func main() {
             log.Fatal(err)
         }
 		str := msg[16:24]
-		log.Fatal("Received message: ", str)
-        conn.Write([]byte(str))
+        conn.Write(append([]byte{0, 0, 0, 0}, []byte(str)...))
     }
 
 }
