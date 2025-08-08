@@ -33,6 +33,7 @@ func main() {
             log.Fatal(err)
         }
 		str := msg[16:24]
+		fmt.Println(str)
         conn.Write([]byte(str))
     }
 
