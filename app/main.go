@@ -38,9 +38,9 @@ func main() {
 		response := append([]byte{0, 0, 0, 0}, []byte(msg[8:12])...)
 		if str == "4" {
 			
-			conn.Write(append(response, ok_code...))
+			conn.Write(append(response, []byte(ok_code)...))
 		} else {
-			conn.Write(append(response, error_code...))
+			conn.Write(append(response, []byte(error_code)...))
 		}
         
     }
