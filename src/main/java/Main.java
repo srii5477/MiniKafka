@@ -21,10 +21,8 @@ public class Main {
        // Wait for connection from client.
        clientSocket = serverSocket.accept();
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
-       dout.writeByte(0);
-       dout.writeByte(0);
-       dout.writeByte(0);
-       dout.writeByte(7);
+       dout.writeInt(0);
+       dout.writeInt(7);
        dout.flush();
        dout.close();
      } catch (IOException e) {
