@@ -26,7 +26,7 @@ public class Main {
 
        int n = in.read(inputBytes);
        System.out.println(Arrays.toString(inputBytes));
-       int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getInt(0);
+       int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
 
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
          dout.writeInt(0);
@@ -35,7 +35,7 @@ public class Main {
          dout.writeByte(inputBytes[10]);
          dout.writeByte(inputBytes[11]);
          if(intVal>=0 && intVal<=4) {
-             dout.writeByte(0); dout.writeByte(0);
+             dout.writeShort(0);
          } else {
              dout.writeShort(35);
          }
