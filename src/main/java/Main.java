@@ -22,6 +22,8 @@ public class Main {
        clientSocket = serverSocket.accept();
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
        dout.writeByte(0);
+       dout.writeByte(0);
+       dout.writeByte(0);
        dout.writeByte(7);
        dout.flush();
        dout.close();
