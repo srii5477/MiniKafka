@@ -21,15 +21,16 @@ public class Main {
        // Wait for connection from client.
        clientSocket = serverSocket.accept();
        DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-       byte[] inputBytes = new byte[8];
+       byte[] inputBytes = new byte[12];
+
        int n = in.read(inputBytes);
        System.out.println(Arrays.toString(inputBytes));
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
        dout.writeInt(0);
-       dout.writeByte(inputBytes[4]);
-         dout.writeByte(inputBytes[5]);
-         dout.writeByte(inputBytes[6]);
-         dout.writeByte(inputBytes[7]);
+       dout.writeByte(inputBytes[8]);
+         dout.writeByte(inputBytes[9]);
+         dout.writeByte(inputBytes[10]);
+         dout.writeByte(inputBytes[11]);
        dout.flush();
        dout.close();
      } catch (IOException e) {
