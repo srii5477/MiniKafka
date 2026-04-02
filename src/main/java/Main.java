@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class Main {
@@ -25,12 +26,19 @@ public class Main {
 
        int n = in.read(inputBytes);
        System.out.println(Arrays.toString(inputBytes));
+       int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getInt(0);
+
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
-       dout.writeInt(0);
-       dout.writeByte(inputBytes[8]);
+         dout.writeInt(0);
+         dout.writeByte(inputBytes[8]);
          dout.writeByte(inputBytes[9]);
          dout.writeByte(inputBytes[10]);
          dout.writeByte(inputBytes[11]);
+         if(intVal>=0 && intVal<=4) {
+             dout.writeByte(0); dout.writeByte(0);
+         } else {
+             dout.writeShort(35);
+         }
        dout.flush();
        dout.close();
      } catch (IOException e) {
