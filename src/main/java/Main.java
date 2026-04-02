@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Main {
   public static void main(String[] args){
@@ -22,6 +23,7 @@ public class Main {
        DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
        byte[] inputBytes = new byte[8];
        int n = in.read(inputBytes);
+       System.out.println(Arrays.toString(inputBytes));
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
        dout.writeInt(0);
        dout.writeByte(inputBytes[4]);
