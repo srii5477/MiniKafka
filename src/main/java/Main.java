@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,12 +19,15 @@ public class Main {
        serverSocket.setReuseAddress(true);
        // Wait for connection from client.
        clientSocket = serverSocket.accept();
-       BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-       String din = in.readLine();
-       System.out.println(din);
+       DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+       byte[] inputBytes = new byte[8];
+       int n = in.read(inputBytes);
        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
        dout.writeInt(0);
-       dout.writeInt(7);
+       dout.writeByte(inputBytes[4]);
+         dout.writeByte(inputBytes[5]);
+         dout.writeByte(inputBytes[6]);
+         dout.writeByte(inputBytes[7]);
        dout.flush();
        dout.close();
      } catch (IOException e) {
