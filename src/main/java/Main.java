@@ -4,6 +4,26 @@ import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+class ClientHandler extends Thread {
+    private Socket sock;
+    public ClientHandler(Socket sock) {
+        this.sock = sock;
+    }
+    public void run() {
+        try {
+            byte[] inputBytes = new byte[23];
+            DataInputStream in = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
+            int n = in.read(inputBytes);
+            System.out.println(Arrays.toString(inputBytes));
+            int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
+
+            DataOutputStream dout = Main.getDataOutputStream(sock, inputBytes, intVal);
+            //dout.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}
 public class Main {
     public static void main(String[] args) {
         // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -21,24 +41,8 @@ public class Main {
             // Wait for connection from client.
             while (true) {
                 clientSocket = serverSocket.accept();
-                Thread clientThread
-                        = new Thread((Runnable) clientSocket);
+                new ClientHandler(clientSocket).start();
 
-                // This thread will handle the client
-                // separately
-                new Thread(clientThread).start();
-                try {
-                    byte[] inputBytes = new byte[23];
-                    DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-                    int n = in.read(inputBytes);
-                    System.out.println(Arrays.toString(inputBytes));
-                    int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
-
-                    DataOutputStream dout = getDataOutputStream(clientSocket, inputBytes, intVal);
-                    //dout.close();
-                } catch (IOException ex) {
-                    break;
-                }
             }
         }
          catch (IOException e) {
@@ -54,7 +58,7 @@ public class Main {
         }
     }
 
-    private static DataOutputStream getDataOutputStream(Socket clientSocket, byte[] inputBytes, int intVal) throws IOException {
+    static DataOutputStream getDataOutputStream(Socket clientSocket, byte[] inputBytes, int intVal) throws IOException {
         DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
         dout.writeInt(19); // msg size
         dout.writeByte(inputBytes[8]); //corr id
