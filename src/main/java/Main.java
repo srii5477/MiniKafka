@@ -63,7 +63,7 @@ public class Main {
 
     static DataOutputStream getDataOutputStream(Socket clientSocket, byte[] inputBytes, int intVal) throws IOException {
         DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
-        dout.writeInt(29); // msg size
+        dout.writeInt(26); // msg size
         dout.writeByte(inputBytes[8]); //corr id
         dout.writeByte(inputBytes[9]);
         dout.writeByte(inputBytes[10]);
