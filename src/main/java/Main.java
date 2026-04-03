@@ -16,13 +16,17 @@ public class Main {
             // Since the tester restarts your program quite often, setting SO_REUSEADDR
             // ensures that we don't run into 'Address already in use' errors
             serverSocket.setReuseAddress(true);
+
             //serverSocket.setSoTimeout(10);
             // Wait for connection from client.
-
-                clientSocket = serverSocket.accept();
-
-
             while (true) {
+                clientSocket = serverSocket.accept();
+                Thread clientThread
+                        = new Thread((Runnable) clientSocket);
+
+                // This thread will handle the client
+                // separately
+                new Thread(clientThread).start();
                 try {
                     byte[] inputBytes = new byte[23];
                     DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
