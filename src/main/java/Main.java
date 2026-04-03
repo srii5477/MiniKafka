@@ -13,7 +13,7 @@ class ClientHandler extends Thread {
         try {
 
             DataInputStream in = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
-            byte[] inputBytes = new byte[in.readInt()];
+            byte[] inputBytes = new byte[in.readInt()+4];
             int n = in.read(inputBytes);
             System.out.println(Arrays.toString(inputBytes));
             int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
