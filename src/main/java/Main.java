@@ -31,7 +31,7 @@ public class Main {
                     int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
 
                     DataOutputStream dout = getDataOutputStream(clientSocket, inputBytes, intVal);
-                    dout.close();
+                    //dout.close();
                 } catch (IOException ex) {
                     break;
                 }
