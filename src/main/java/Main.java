@@ -36,6 +36,7 @@ public class Main {
          dout.writeByte(inputBytes[11]);
          dout.writeShort(0); //error code
          dout.writeByte(1); // api_keys array length
+         dout.writeShort(18); //api_key
          dout.writeShort(0); //min version
          dout.writeShort(4); // max version
          dout.writeByte(0); //emtpy tag buffer
