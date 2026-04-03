@@ -16,7 +16,7 @@ public class Main {
             // Since the tester restarts your program quite often, setting SO_REUSEADDR
             // ensures that we don't run into 'Address already in use' errors
             serverSocket.setReuseAddress(true);
-            serverSocket.setSoTimeout(5);
+            serverSocket.setSoTimeout(10);
             // Wait for connection from client.
             while (true) {
                 clientSocket = serverSocket.accept();
