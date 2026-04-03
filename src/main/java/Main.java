@@ -13,7 +13,7 @@ class ClientHandler extends Thread {
         while (true) {
             try {
                 DataInputStream in = new DataInputStream(new BufferedInputStream(sock.getInputStream()));
-                byte[] inputBytes = new byte[23];
+                byte[] inputBytes = new byte[33];
                 int n = in.read(inputBytes);
                 System.out.println(Arrays.toString(inputBytes));
                 int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
@@ -63,7 +63,7 @@ public class Main {
 
     static DataOutputStream getDataOutputStream(Socket clientSocket, byte[] inputBytes, int intVal) throws IOException {
         DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
-        dout.writeInt(19); // msg size
+        dout.writeInt(29); // msg size
         dout.writeByte(inputBytes[8]); //corr id
         dout.writeByte(inputBytes[9]);
         dout.writeByte(inputBytes[10]);
@@ -73,10 +73,14 @@ public class Main {
         } else {
             dout.writeShort(35);
         }
-        dout.writeByte(2); // api_keys array length
+        dout.writeByte(3); // api_keys array length
         dout.writeShort(18); //api_key
         dout.writeShort(0); //min version
         dout.writeShort(4); // max version
+        dout.writeByte(0); //emtpy tag buffer
+        dout.writeShort(75);
+        dout.writeShort(0);
+        dout.writeShort(0);
         dout.writeByte(0); //emtpy tag buffer
         dout.writeInt(0); //throttle_time_ms
         dout.writeByte(0); //emtpy tag buffer
