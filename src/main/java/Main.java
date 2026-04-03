@@ -21,6 +21,11 @@ class ClientHandler extends Thread {
             //dout.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+            try {
+                sock.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
@@ -42,7 +47,6 @@ public class Main {
             while (true) {
                 clientSocket = serverSocket.accept();
                 new ClientHandler(clientSocket).start();
-
             }
         }
          catch (IOException e) {
