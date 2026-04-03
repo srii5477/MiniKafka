@@ -34,7 +34,11 @@ public class Main {
          dout.writeByte(inputBytes[9]);
          dout.writeByte(inputBytes[10]);
          dout.writeByte(inputBytes[11]);
-         dout.writeShort(0); //error code
+         if(intVal>=0 && intVal<=4) {
+             dout.writeShort(0);
+         } else {
+             dout.writeShort(35);
+         }
          dout.writeByte(2); // api_keys array length
          dout.writeShort(18); //api_key
          dout.writeShort(0); //min version
