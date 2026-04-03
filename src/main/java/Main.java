@@ -18,35 +18,21 @@ public class Main {
             serverSocket.setReuseAddress(true);
             //serverSocket.setSoTimeout(10);
             // Wait for connection from client.
-            while (true) {
+
                 clientSocket = serverSocket.accept();
                 DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 byte[] inputBytes = new byte[23];
+            while (true) {
+                try {
+                    int n = in.read(inputBytes);
+                    System.out.println(Arrays.toString(inputBytes));
+                    int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
 
-                int n = in.read(inputBytes);
-                System.out.println(Arrays.toString(inputBytes));
-                int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
-
-                DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
-                dout.writeInt(19); // msg size
-                dout.writeByte(inputBytes[8]); //corr id
-                dout.writeByte(inputBytes[9]);
-                dout.writeByte(inputBytes[10]);
-                dout.writeByte(inputBytes[11]);
-                if (intVal >= 0 && intVal <= 4) {
-                    dout.writeShort(0);
-                } else {
-                    dout.writeShort(35);
+                    DataOutputStream dout = getDataOutputStream(clientSocket, inputBytes, intVal);
+                    dout.close();
+                } catch (IOException ex) {
+                    break;
                 }
-                dout.writeByte(2); // api_keys array length
-                dout.writeShort(18); //api_key
-                dout.writeShort(0); //min version
-                dout.writeShort(4); // max version
-                dout.writeByte(0); //emtpy tag buffer
-                dout.writeInt(0); //throttle_time_ms
-                dout.writeByte(0); //emtpy tag buffer
-                dout.flush();
-                dout.close();
             }
         }
          catch (IOException e) {
@@ -60,5 +46,28 @@ public class Main {
                 System.out.println("IOException: " + e.getMessage());
             }
         }
+    }
+
+    private static DataOutputStream getDataOutputStream(Socket clientSocket, byte[] inputBytes, int intVal) throws IOException {
+        DataOutputStream dout = new DataOutputStream(clientSocket.getOutputStream());
+        dout.writeInt(19); // msg size
+        dout.writeByte(inputBytes[8]); //corr id
+        dout.writeByte(inputBytes[9]);
+        dout.writeByte(inputBytes[10]);
+        dout.writeByte(inputBytes[11]);
+        if (intVal >= 0 && intVal <= 4) {
+            dout.writeShort(0);
+        } else {
+            dout.writeShort(35);
+        }
+        dout.writeByte(2); // api_keys array length
+        dout.writeShort(18); //api_key
+        dout.writeShort(0); //min version
+        dout.writeShort(4); // max version
+        dout.writeByte(0); //emtpy tag buffer
+        dout.writeInt(0); //throttle_time_ms
+        dout.writeByte(0); //emtpy tag buffer
+        dout.flush();
+        return dout;
     }
 }
