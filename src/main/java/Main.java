@@ -20,10 +20,12 @@ public class Main {
             // Wait for connection from client.
 
                 clientSocket = serverSocket.accept();
-                DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-                byte[] inputBytes = new byte[23];
+
+
             while (true) {
                 try {
+                    byte[] inputBytes = new byte[23];
+                    DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                     int n = in.read(inputBytes);
                     System.out.println(Arrays.toString(inputBytes));
                     int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
