@@ -18,7 +18,7 @@ class ClientHandler extends Thread {
             int intVal = ByteBuffer.allocate(2).put(Arrays.copyOfRange(inputBytes, 6, 8)).getShort(0);
 
             DataOutputStream dout = Main.getDataOutputStream(sock, inputBytes, intVal);
-            //dout.close();
+            dout.close();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             try {
@@ -47,6 +47,7 @@ public class Main {
             while (true) {
                 clientSocket = serverSocket.accept();
                 new ClientHandler(clientSocket).start();
+
             }
         }
          catch (IOException e) {
